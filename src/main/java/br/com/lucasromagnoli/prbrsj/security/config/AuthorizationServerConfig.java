@@ -1,6 +1,8 @@
-package br.com.lucasromagnoli.prbrsj.rest.config;
+package br.com.lucasromagnoli.prbrsj.security.config;
 
+import br.com.lucasromagnoli.prbrsj.rest.constants.ControllerMapping;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,6 +20,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Qualifier("PrbrsjUserDetailsService")
     @Autowired
     private UserDetailsService userDetailsService;
 
@@ -26,17 +29,26 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         // TODO: Consultar do banco de dados
         clients.inMemory()
                 .withClient("angular")
-                .secret("{noop}angular")
+                .secret("$2y$10$4t2.VlL.kjU2gxjCkhco.eu4fk86mgW0XLivOodzaYTyMeFLRiqdG")
                 .scopes("read", "write")
                 .authorizedGrantTypes("password", "refresh_token")
-                .accessTokenValiditySeconds(30)
+                .accessTokenValiditySeconds(1800)
+                .refreshTokenValiditySeconds(3600 * 24)
+            .and()
+                .withClient("flutter")
+                .secret("$2y$10$4t2.VlL.kjU2gxjCkhco.eu4fk86mgW0XLivOodzaYTyMeFLRiqdG")
+                .scopes("read")
+                .authorizedGrantTypes("password", "refresh_token")
+                .accessTokenValiditySeconds(1800)
                 .refreshTokenValiditySeconds(3600 * 24);
+
 
     }
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
+                .pathMapping(ControllerMapping.OAUTH_TOKEN, ControllerMapping.AUTH_TOKEN_GENERATE)
                 .tokenStore(tokenStore())
                 .accessTokenConverter(accessTokenConverter())
                 .reuseRefreshTokens(false)
