@@ -1,5 +1,6 @@
 package br.com.lucasromagnoli.prbrsj.rest.processor;
 
+import br.com.lucasromagnoli.prbrsj.rest.constants.ControllerMapping;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -47,8 +48,8 @@ public class RefreshTokenPostProcessor implements ResponseBodyAdvice<OAuth2Acces
     private void insertRefreshTokenInCookie(String refreshToken, HttpServletRequest request, HttpServletResponse response) {
         Cookie refreshTokenCookie = new Cookie("refreshToken", refreshToken);
         refreshTokenCookie.setHttpOnly(true);
-        refreshTokenCookie.setSecure(false); // TODO: Mudar para true em produção
-        refreshTokenCookie.setPath(request.getContextPath() + "/oauth/token");
+        refreshTokenCookie.setSecure(false); // TODO: Mudar conforme variavel de ambiente + Criar uma classe SUPPORT para gerenciar os cookies
+        refreshTokenCookie.setPath(request.getContextPath() + ControllerMapping.AUTH_TOKEN_GENERATE);
         refreshTokenCookie.setMaxAge(2592000); //TODO: Mudar para .properties
 
         response.addCookie(refreshTokenCookie);

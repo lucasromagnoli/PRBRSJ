@@ -1,5 +1,6 @@
 package br.com.lucasromagnoli.prbrsj.rest.filter;
 
+import br.com.lucasromagnoli.prbrsj.rest.constants.ControllerMapping;
 import org.apache.catalina.util.ParameterMap;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -22,7 +23,7 @@ public class RefreshTokenCookieFilter implements Filter {
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
 
-        if (request.getRequestURI().equalsIgnoreCase("/oauth/token")
+        if (request.getRequestURI().equalsIgnoreCase(ControllerMapping.AUTH_TOKEN_GENERATE)
                 && request.getParameter("grant_type").equals("refresh_token")
                 && request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
