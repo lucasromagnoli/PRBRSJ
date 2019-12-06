@@ -1,0 +1,8 @@
+secret.jwt.token.local = lucasromagnolilocal
+secret.jwt.token.prod = lucasromagnoliprod
+
+max.age.jwt.token.local = 2592000
+max.age.jwt.token.prod = 2592000
+
+cookie.https.secure.local = false
+cookie.https.secure.prod = true

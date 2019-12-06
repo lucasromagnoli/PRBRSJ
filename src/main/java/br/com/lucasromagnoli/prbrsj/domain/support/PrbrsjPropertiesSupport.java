@@ -7,6 +7,7 @@ import org.springframework.core.env.Environment;
 
 @Configuration
 @PropertySource(value = "classpath:/br/com/lucasromagnoli/prbrsj/prbrsj-messages.properties", encoding = "UTF-8")
+@PropertySource(value = "classpath:/br/com/lucasromagnoli/prbrsj/prbrsj-jwt.properties", encoding = "UTF-8")
 public class PrbrsjPropertiesSupport {
 
     @Autowired
@@ -15,4 +16,24 @@ public class PrbrsjPropertiesSupport {
     public String getProperty(String key) {
         return environment.getProperty(key);
     }
+
+    public <T> Object getProperty(String key, Class<T> clazz) {
+
+        if (clazz == Integer.class) {
+            try {
+                return Integer.parseInt(environment.getProperty(key));
+            } catch (NumberFormatException e) { // TODO: Validar uma melhor forma de lidar com properties que não seja String
+                e.printStackTrace();
+                return 0;
+            }
+        }
+
+        if (clazz == Boolean.class) {
+            return Boolean.parseBoolean(environment.getProperty(key));
+        }
+
+        //TODO: Melhor maneira de lidar com as classes que não foram mapeadas
+        return environment.getProperty(key);
+    }
+
 }

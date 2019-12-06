@@ -1,5 +1,6 @@
 package br.com.lucasromagnoli.prbrsj.security.config;
 
+import br.com.lucasromagnoli.prbrsj.domain.support.PrbrsjPropertiesSupport;
 import br.com.lucasromagnoli.prbrsj.rest.constants.ControllerMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,6 +20,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private PrbrsjPropertiesSupport prbrsjPropertiesSupport;
 
     @Qualifier("PrbrsjUserDetailsService")
     @Autowired
@@ -59,7 +63,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter accessTokenConverter = new JwtAccessTokenConverter();
-        accessTokenConverter.setSigningKey("lucasromagnoli"); //TODO: Salvar em um .properties
+        accessTokenConverter.setSigningKey(prbrsjPropertiesSupport.getProperty("secret.jwt.token"));
         return accessTokenConverter;
     }
 
