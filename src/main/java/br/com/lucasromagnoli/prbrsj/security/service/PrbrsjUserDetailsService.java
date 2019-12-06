@@ -2,6 +2,7 @@ package br.com.lucasromagnoli.prbrsj.security.service;
 
 import br.com.lucasromagnoli.prbrsj.domain.model.SystemUser;
 import br.com.lucasromagnoli.prbrsj.domain.repository.SystemUserRepository;
+import br.com.lucasromagnoli.prbrsj.domain.support.PrbrsjPropertiesSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,11 +23,14 @@ public class PrbrsjUserDetailsService implements UserDetailsService {
     @Autowired
     private SystemUserRepository systemUserRepository;
 
+    @Autowired
+    private PrbrsjPropertiesSupport prbrsjPropertiesSupport;
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<SystemUser> userOptional = systemUserRepository.findByEmail(email);
-        // TODO: Colocar a mensagem em .properties
-        SystemUser user = userOptional.orElseThrow(() -> new UsernameNotFoundException("Usuário e/ou senha incorretos"));
+        SystemUser user = userOptional.orElseThrow(() -> new UsernameNotFoundException(
+                prbrsjPropertiesSupport.getProperty("auth.fail.to.authenticate.user.and.password")));
         return new User(email, user.getPassword(), getRoles(user));
     }
 

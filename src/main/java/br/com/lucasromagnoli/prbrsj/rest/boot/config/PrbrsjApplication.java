@@ -1,14 +1,12 @@
 package br.com.lucasromagnoli.prbrsj.rest.boot.config;
 
-import br.com.lucasromagnoli.prbrsj.domain.repository.SystemUserRepository;
+import br.com.lucasromagnoli.prbrsj.domain.model.SystemUser;
 import br.com.lucasromagnoli.prbrsj.domain.support.PrbrsjPropertiesSupport;
-import br.com.lucasromagnoli.prbrsj.security.config.OAuthSecurityConfig;
 import br.com.lucasromagnoli.prbrsj.rest.controller.UserRestController;
 import br.com.lucasromagnoli.prbrsj.rest.filter.RefreshTokenCookieFilter;
-import br.com.lucasromagnoli.prbrsj.domain.model.SystemUser;
 import br.com.lucasromagnoli.prbrsj.rest.processor.RefreshTokenPostProcessor;
+import br.com.lucasromagnoli.prbrsj.security.config.OAuthSecurityConfig;
 import br.com.lucasromagnoli.prbrsj.security.service.PrbrsjUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
