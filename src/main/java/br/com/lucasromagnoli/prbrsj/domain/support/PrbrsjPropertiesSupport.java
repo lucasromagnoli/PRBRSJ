@@ -36,4 +36,17 @@ public class PrbrsjPropertiesSupport {
         return environment.getProperty(key);
     }
 
+    public int getIntegerProperty(String key) {
+        try {
+            return Integer.parseInt(environment.getProperty(key));
+        } catch (NumberFormatException e) {
+            // TODO: Adicionar log
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public boolean getBooleanProperty(String key) {
+        return Boolean.parseBoolean(environment.getProperty(key));
+    }
 }

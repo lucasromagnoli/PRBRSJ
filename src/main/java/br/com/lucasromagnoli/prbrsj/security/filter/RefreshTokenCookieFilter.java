@@ -1,4 +1,4 @@
-package br.com.lucasromagnoli.prbrsj.rest.filter;
+package br.com.lucasromagnoli.prbrsj.security.filter;
 
 import br.com.lucasromagnoli.prbrsj.rest.constants.ControllerMapping;
 import org.apache.catalina.util.ParameterMap;

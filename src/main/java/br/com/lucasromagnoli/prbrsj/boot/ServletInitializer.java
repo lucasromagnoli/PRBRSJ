@@ -1,6 +1,6 @@
-package br.com.lucasromagnoli.prbrsj.rest.boot;
+package br.com.lucasromagnoli.prbrsj.boot;
 
-import br.com.lucasromagnoli.prbrsj.rest.boot.config.PrbrsjApplication;
+import br.com.lucasromagnoli.prbrsj.boot.config.PrbrsjApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 

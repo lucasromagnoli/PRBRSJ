@@ -1,4 +1,4 @@
-package br.com.lucasromagnoli.prbrsj.rest.filter;
+package br.com.lucasromagnoli.prbrsj.security.filter;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;

@@ -1,7 +1,8 @@
-package br.com.lucasromagnoli.prbrsj.rest.processor;
+package br.com.lucasromagnoli.prbrsj.security.processor;
 
 import br.com.lucasromagnoli.prbrsj.domain.support.PrbrsjPropertiesSupport;
 import br.com.lucasromagnoli.prbrsj.rest.constants.ControllerMapping;
+import br.com.lucasromagnoli.prbrsj.rest.support.CookieSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
@@ -51,12 +52,11 @@ public class RefreshTokenPostProcessor implements ResponseBodyAdvice<OAuth2Acces
     }
 
     private void insertRefreshTokenInCookie(String refreshToken, HttpServletRequest request, HttpServletResponse response) {
-        //TODO: Criar uma classe SUPPORT para gerenciar os cookies
-        Cookie refreshTokenCookie = new Cookie("refreshToken", refreshToken);
-        refreshTokenCookie.setHttpOnly(true);
-        refreshTokenCookie.setSecure((boolean) prbrsjPropertiesSupport.getProperty("cookie.https.secure", Boolean.class));
-        refreshTokenCookie.setPath(request.getContextPath() + ControllerMapping.AUTH_TOKEN_GENERATE);
-        refreshTokenCookie.setMaxAge((int) prbrsjPropertiesSupport.getProperty("max.age.jwt.token", Integer.class));
+        // TODO: Colocar os nomes de properties e do token em uma constante
+        Cookie refreshTokenCookie = CookieSupport.make("refreshToken", refreshToken, true,
+                prbrsjPropertiesSupport.getBooleanProperty("cookie.https.secure"),
+                request.getContextPath() + ControllerMapping.AUTH_TOKEN_GENERATE,
+                prbrsjPropertiesSupport.getIntegerProperty("max.age.jwt.token"));
 
         response.addCookie(refreshTokenCookie);
     }
