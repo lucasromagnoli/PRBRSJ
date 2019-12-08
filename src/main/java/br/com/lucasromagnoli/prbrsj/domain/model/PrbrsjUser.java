@@ -4,9 +4,10 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
+//TODO: Alterar o nome da tabela no banco ?
 @Entity
 @Table(name = "user")
-public class SystemUser {
+public class PrbrsjUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,7 +65,7 @@ public class SystemUser {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SystemUser that = (SystemUser) o;
+        PrbrsjUser that = (PrbrsjUser) o;
         return Objects.equals(id, that.id);
     }
 

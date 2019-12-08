@@ -2,6 +2,7 @@ package br.com.lucasromagnoli.prbrsj.rest.controller;
 
 import br.com.lucasromagnoli.prbrsj.domain.support.PrbrsjPropertiesSupport;
 import br.com.lucasromagnoli.prbrsj.rest.constants.ControllerMapping;
+import br.com.lucasromagnoli.prbrsj.rest.support.CookieSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,12 +22,10 @@ public class AuthController {
 
     @DeleteMapping(ControllerMapping.PATH_AUTH_TOKEN_REVOKE)
     public void revoke(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-        // TODO: riar uma classe SUPPORT para gerenciar os cookies
-        Cookie cookie = new Cookie("refreshToken", null);
-        cookie.setHttpOnly(true);
-        cookie.setSecure((boolean) prbrsjPropertiesSupport.getProperty("cookie.https.secure", Boolean.class));
-        cookie.setPath(httpServletRequest.getContextPath()+ControllerMapping.AUTH_TOKEN_GENERATE);
-        cookie.setMaxAge(0);
+        // TODO: Colocar os nomes de properties e do token em uma constante
+        Cookie cookie = CookieSupport.make("refreshToken", null, true,
+                prbrsjPropertiesSupport.getBooleanProperty("cookie.https.secure"),
+                httpServletRequest.getContextPath()+ControllerMapping.AUTH_TOKEN_GENERATE, 0);
 
         httpServletResponse.addCookie(cookie);
         httpServletResponse.setStatus(HttpStatus.NO_CONTENT.value());
