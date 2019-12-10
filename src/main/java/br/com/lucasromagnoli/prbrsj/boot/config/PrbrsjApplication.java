@@ -3,7 +3,6 @@ package br.com.lucasromagnoli.prbrsj.boot.config;
 import br.com.lucasromagnoli.prbrsj.domain.model.PrbrsjUser;
 import br.com.lucasromagnoli.prbrsj.domain.support.PrbrsjPropertiesSupport;
 import br.com.lucasromagnoli.prbrsj.rest.controller.UserRestController;
-import br.com.lucasromagnoli.prbrsj.rest.support.ResponseEntitySupport;
 import br.com.lucasromagnoli.prbrsj.security.config.OAuthSecurityConfig;
 import br.com.lucasromagnoli.prbrsj.security.filter.RefreshTokenCookieFilter;
 import br.com.lucasromagnoli.prbrsj.security.processor.RefreshTokenPostProcessor;
@@ -23,9 +22,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 		RefreshTokenCookieFilter.class,
 		PrbrsjUser.class,
 		PrbrsjUserDetailsService.class,
-		PrbrsjPropertiesSupport.class,
-		ResponseEntitySupport.class
-})
+		PrbrsjPropertiesSupport.class})
 public class PrbrsjApplication {
 
 	public static void main(String[] args) {
