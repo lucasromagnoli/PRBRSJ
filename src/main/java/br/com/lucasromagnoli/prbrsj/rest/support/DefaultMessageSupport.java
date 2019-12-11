@@ -3,6 +3,7 @@ package br.com.lucasromagnoli.prbrsj.rest.support;
 import br.com.lucasromagnoli.prbrsj.rest.resource.DefaultMessage;
 import br.com.lucasromagnoli.prbrsj.rest.resource.DefaultMessageCategory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,11 +18,17 @@ public class DefaultMessageSupport {
     private DefaultMessageSupport() {
         this.httpStatus = HttpStatus.OK;
         this.category = DefaultMessageCategory.INFORMATION;
-        this.details = new HashMap<String, String>();
     }
 
     public static DefaultMessageSupport builder(){
         return new DefaultMessageSupport();
+    }
+
+    public static ResponseEntity<DefaultMessage> createResponseEntity(
+            DefaultMessageCategory defaultMessageCategory, String message, HttpStatus httpStatus) {
+
+        DefaultMessage defaultMessage = new DefaultMessage(message, defaultMessageCategory, httpStatus);
+        return new ResponseEntity<>(defaultMessage, httpStatus);
     }
 
     public DefaultMessageSupport message(String message) {
@@ -40,6 +47,10 @@ public class DefaultMessageSupport {
     }
 
     public DefaultMessageSupport details(String key, String value) {
+        if (details == null) {
+            this.details = new HashMap<String, String>();
+        }
+
         this.details.put(key, value);
         return this;
     }
