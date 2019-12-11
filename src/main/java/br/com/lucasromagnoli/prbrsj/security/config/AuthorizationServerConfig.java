@@ -7,11 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.provider.error.DefaultWebResponseExceptionTranslator;
+import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -65,7 +70,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .tokenEnhancer(tokenEnhancerChain)
                 .reuseRefreshTokens(false)
                 .userDetailsService(userDetailsService)
-                .authenticationManager(authenticationManager);
+                .authenticationManager(authenticationManager)
+                .exceptionTranslator(webResponseExceptionTranslator());
     }
 
     @Bean
@@ -85,4 +91,22 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         return new CustomTokenEnhancer();
     }
 
+    @Bean
+    public WebResponseExceptionTranslator webResponseExceptionTranslator() {
+        return new DefaultWebResponseExceptionTranslator() {
+
+            @Override
+            public ResponseEntity<OAuth2Exception> translate(Exception e) throws Exception {
+                ResponseEntity<OAuth2Exception> responseEntity = super.translate(e);
+                OAuth2Exception body = responseEntity.getBody();
+                HttpHeaders headers = new HttpHeaders();
+                headers.setAll(responseEntity.getHeaders().toSingleValueMap());
+
+                // TODO: Parametrizar o retorno da autenticação não autorizada.
+                // do something with header or response
+                // body.addAdditionalInformation("key", "value");
+                return new ResponseEntity<>(body, headers, responseEntity.getStatusCode());
+            }
+        };
+    }
 }

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping(ControllerMapping.PATH_ROOT_AUTH_TOKEN)
-public class AuthController {
+public class AuthRestController {
 
     @Autowired
     PrbrsjPropertiesSupport prbrsjPropertiesSupport;

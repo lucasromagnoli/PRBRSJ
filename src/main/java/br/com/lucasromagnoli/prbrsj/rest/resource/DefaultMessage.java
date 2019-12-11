@@ -18,6 +18,12 @@ public class DefaultMessage {
         this.details = details;
     }
 
+    public DefaultMessage(String message, DefaultMessageCategory category, HttpStatus httpStatus) {
+        this.message = message;
+        this.category = category;
+        this.httpStatus = httpStatus;
+    }
+
     public String getMessage() {
         return message;
     }

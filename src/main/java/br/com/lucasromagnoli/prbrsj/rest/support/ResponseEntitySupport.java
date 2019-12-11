@@ -7,16 +7,16 @@ public class ResponseEntitySupport<T> {
     private T body;
     private HttpStatus httpStatus;
 
-    public ResponseEntitySupport(T body) {
+    private ResponseEntitySupport(T body) {
         this.body = body;
     }
 
     public static <T> ResponseEntitySupport<T> body (T body){
-        return new ResponseEntitySupport(body);
+        return new ResponseEntitySupport<>(body);
     }
 
     public static <T> ResponseEntitySupport<T> body (){
-        return new ResponseEntitySupport(null);
+        return new ResponseEntitySupport<>(null);
     }
 
     public ResponseEntitySupport status(HttpStatus httpStatus) {
@@ -33,6 +33,6 @@ public class ResponseEntitySupport<T> {
     }
 
     private ResponseEntity<?> buildFromAttributesOrFill() {
-        return new ResponseEntity<T>(this.body, this.httpStatus != null ? this.httpStatus : HttpStatus.OK);
+        return new ResponseEntity<>(this.body, this.httpStatus != null ? this.httpStatus : HttpStatus.OK);
     }
 }
