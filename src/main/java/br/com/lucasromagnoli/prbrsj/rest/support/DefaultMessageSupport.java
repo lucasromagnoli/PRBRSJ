@@ -12,21 +12,21 @@ public class DefaultMessageSupport {
     private String message;
     private HttpStatus httpStatus;
     private DefaultMessageCategory category;
-    private Map<String, String> details;
+    private Map details;
 
-    public DefaultMessageSupport(String message) {
-        this.message = message;
+    private DefaultMessageSupport() {
         this.httpStatus = HttpStatus.OK;
         this.category = DefaultMessageCategory.INFORMATION;
-        this.details = new HashMap();
+        this.details = new HashMap<String, String>();
     }
 
-    public static DefaultMessageSupport message(String message) {
-        return new DefaultMessageSupport(message);
+    public static DefaultMessageSupport builder(){
+        return new DefaultMessageSupport();
     }
 
-    public static DefaultMessageSupport message() {
-        return new DefaultMessageSupport(null);
+    public DefaultMessageSupport message(String message) {
+        this.message = message;
+        return this;
     }
 
     public DefaultMessageSupport httpStatus(HttpStatus httpStatus) {
